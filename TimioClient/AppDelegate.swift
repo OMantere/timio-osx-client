@@ -7,21 +7,28 @@
 //
 
 import Cocoa
+import ServiceManagement
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var window: NSWindow!
 
+    func addHelperToLoginItems() {
+        let appBundleIdentifier = "timio.TimioClient-Helper"
+        if SMLoginItemSetEnabled(appBundleIdentifier as CFString, true) {
+            NSLog("Added login item successfully.")
+        } else {
+            NSLog("Failed to add login item.")
+        }
+    }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        addHelperToLoginItems()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
-
-
 }
 

@@ -11,16 +11,18 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    if (!SMLoginItemSetEnabled((__bridge CFStringRef)@"com.corybohon.Test-Application-Helper", YES)) {
-    NSLog(@"Login Item Was Not Successful");
-
-
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
+    func launchMainApplication() {
         NSArray *pathComponents = [[[NSBundle mainBundle] bundlePath] pathComponents];
         pathComponents = [pathComponents subarrayWithRange:NSMakeRange(0, [pathComponents count] - 4)];
         NSString *path = [NSString pathWithComponents:pathComponents];
         [[NSWorkspace sharedWorkspace] launchApplication:path];
-        [NSApp terminate:nil];
+    }
+    
+
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        if(!KeyChainInterface.readToken) {
+            launchMainApplication()
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
